@@ -1,7 +1,10 @@
 package com.yh.shenji.proxy;
 
 import com.google.common.collect.Maps;
-import lombok.extern.slf4j.Slf4j;
+import com.yh.shenji.exception.WoodException;
+import com.yh.shenji.utils.ClassUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -12,13 +15,17 @@ import java.util.Map;
  * @author YangDongYu
  * @date 2019/11/13 11:49
  */
-@Slf4j
 public class BaseAOP {
+    private static final Logger logger = LoggerFactory.getLogger(BaseAOP.class);
+
     static {
-        log.warn("====================== BASE AOP =========================");
+        logger.warn("====================== BASE AOP =========================");
         Map<Class<?>, List<BaseProxy>> proxyMap;
         try {
             proxyMap = getProxyMap();
+            if (proxyMap == null) {
+                throw new WoodException("Error");
+            }
             for (Map.Entry<Class<?>, List<BaseProxy>> entry : proxyMap.entrySet()) {
                 Class<?> sourceClass = entry.getKey();
                 List<BaseProxy> proxyList = entry.getValue();
@@ -27,7 +34,7 @@ public class BaseAOP {
                 BaseAOP.putBean(sourceClass, proxyInstance);
             }
         } catch (Exception e) {
-            log.error("BASE AOP", e);
+            logger.error("BASE AOP", e);
             throw new RuntimeException(e);
         }
     }
@@ -39,6 +46,7 @@ public class BaseAOP {
 
     /**
      * 功能描述:生成 (被代理类,代理类集（或称为代理链）) 映射
+     *
      * @return : java.util.Map<ja/va.lang.Class<?>,java.util.List<com.yh.shenji.proxy.BaseProxy>>
      * @author : yangyihui
      * @date : 2019/11/13 15:33

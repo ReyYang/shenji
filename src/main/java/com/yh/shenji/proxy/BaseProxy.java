@@ -14,6 +14,14 @@ import java.util.List;
  * @date 2019/11/12 13:36
  */
 public interface BaseProxy {
+
+    /**
+     * 功能描述: 抽象代理实现方法（代理链）
+     * @param proxyChain 1
+     * @return : java.lang.Object
+     * @author : yangyihui
+     * @date : 2019/11/25 15:23
+     */
     <T> Object doProxy(ProxyChain<T> proxyChain);
 
     @Getter

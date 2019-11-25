@@ -14,6 +14,5 @@ public class ClassHelper {
     private static Set<Class<?>> CLASS_SET;
 
     static {
-
     }
 }

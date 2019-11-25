@@ -24,9 +24,10 @@ public class MethodProxyFactory implements MethodInterceptor {
     public MethodProxyFactory() {
     }
 
+    @SuppressWarnings("all")
     public static <T> T getProxyInstance(Object target) {
         MethodProxyFactory factory = new MethodProxyFactory(target);
-        return (T) Enhancer.create(target.getClass(), factory);
+        return (T) Enhancer.create(target.getClass(), factory) ;
     }
 
     /**
